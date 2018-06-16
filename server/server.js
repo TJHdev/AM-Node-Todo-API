@@ -25,17 +25,16 @@ app.post('/todos', (req, res) => {
     })
 });
 
+app.get('/todos', (req, res) => {
+    Todo.find().then((todos) => {
+        res.send({
+            todos:todos
+        });
+    }, (e) => {
+        res.status(400).send(e);
+    })
+});
+
 module.exports = {
     app: app
 }
-
-
-// let challengeUser = new User ({
-//     email: 'thomasjhanna@lol.com'
-// })
-
-// challengeUser.save().then((result)=>{
-//     console.log(JSON.stringify(result, null, 2))
-// }, (err)=>{
-//     console.log(err, null, 2);
-// })
