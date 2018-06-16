@@ -25,6 +25,9 @@ app.post('/todos', (req, res) => {
     })
 });
 
+module.exports = {
+    app: app
+}
 
 
 // let challengeUser = new User ({
