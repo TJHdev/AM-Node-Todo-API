@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const {ObjectID} = require('mongodb');7
 
 const { mongoose } = require('./db/mongoose.js');
 const {Todo} = require('./models/todo.js');
@@ -8,10 +9,6 @@ const {User} = require('./models/user.js');
 let app = express();
 
 app.use(bodyParser.json());
-
-app.listen(3000, () => {
-    console.log('Server is up on port 3000!')
-});
 
 app.post('/todos', (req, res) => {
     let todo = new Todo({
@@ -35,7 +32,30 @@ app.get('/todos', (req, res) => {
     })
 });
 
+//GET /todos/5b257e63eb1fa937e03403c0
+app.get('/todos/:id', (req, res) => {
+    let id = req.params.id;
 
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    } 
+
+    Todo.findById(id).then((todo) => {
+        if(!todo) {
+            return res.status(404).send();
+        }
+
+        res.send({todo:todo});
+    }).catch(() => {
+        res.status(400).send();
+    })
+
+});
+
+
+app.listen(3000, () => {
+    console.log('Server is up on port 3000!')
+});
 
 module.exports = {
     app: app

@@ -11,11 +11,11 @@ let id = '5b257e63eb1fa937e03403c0zzz';
 // let userId = '5b2506986002f716b8df5056';
 let userId = '5b2506986002f716b8df5057';
 
-// if (!ObjectID.isValid(userId)) {
-//     console.log('ID not valid');
-// } else {
+if (!ObjectID.isValid(userId)) {
+    console.log('ID not valid');
+} else {
     
-// }
+}
 
 User.findById(userId).then((user) => {
     if (!user) {
