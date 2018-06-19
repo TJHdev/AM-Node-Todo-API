@@ -3,15 +3,16 @@ const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
 const { mongoose } = require('./db/mongoose.js');
-const {Todo} = require('./models/todo.js');
-const {User} = require('./models/user.js');
+const { Todo } = require('./models/todo.js');
+const { User } = require('./models/user.js');
 
 let app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
-    let todo = new Todo({
+    let todo = new Todo ({
         text: req.body.text
     });
 
@@ -53,7 +54,7 @@ app.get('/todos/:id', (req, res) => {
 });
 
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Server is up on port 3000!')
 });
 

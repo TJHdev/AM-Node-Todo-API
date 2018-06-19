@@ -33,7 +33,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
     }).then((result) => {
         console.log('Updated User');
         console.log(result);
-    }, (err)=>{
+    }, (err) => {
         console.log('Unable to update User', err);
     })
 
