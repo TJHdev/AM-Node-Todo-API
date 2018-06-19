@@ -5,6 +5,14 @@ const {ObjectID} = require('mongodb');
 const { app } = require('./../server.js');
 const { Todo } = require('./../models/todo.js');
 
+const timestamp = new Date().valueOf();
+
+const printDelayToConsole = (lexicalLocation) => {
+    console.log(`--------${lexicalLocation}--------`);
+    console.log(new Date().valueOf() - timestamp);
+    console.log(`-----------------------------------`);
+}
+
 const todos = [{
     _id: new ObjectID(),
     text: 'First test todo'
@@ -25,7 +33,6 @@ beforeEach((done) => {
   
 
 describe('POST /todos', () => {
-    
     it('should create a new todo', (done) => {
         let text = 'Test todo text';
 
@@ -50,11 +57,12 @@ describe('POST /todos', () => {
                 }).catch((e) => {
                     return done(e);
                 })
+                
             });
     })
 
     it('should not create a new todo if the data POSTed in invalid', (done) => {
-
+        
         request(app)
             .post('/todos')
             .send({})
@@ -115,7 +123,6 @@ describe('GET /todos/:id', () => {
 });
 
 describe('DELETE /todos/:id', () => {
-
     it('should remove a todo', (done) => {
         let hexId  = todos[0]._id.toHexString();
 
@@ -139,7 +146,6 @@ describe('DELETE /todos/:id', () => {
 
             });
     });
-
     it('should return 404 if todo not found', (done) => {
         let hexId = new ObjectID().toHexString();
 
@@ -148,7 +154,6 @@ describe('DELETE /todos/:id', () => {
             .expect(404)
             .end(done);
     });
-
     it('should return 404 if ObjectID is invalid', (done) => {
         request(app)
             .delete('/todos/hello123')
