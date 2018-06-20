@@ -1,17 +1,49 @@
 const {SHA256} = require('crypto-js');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-let data = {
-    id: 10
-};
+////////////////////////////////////////////////
+const timestamp = new Date().getTime();
 
-let token = jwt.sign(data, '123abc');
-console.log(token);
+console.log(`Start timestamp: ${new Date().getTime() - timestamp}`);
 
-let decoded = jwt.verify(token , '123abc');
-console.log(decoded);
+let password = '123abc!';
 
 
+// to hash the password we need to call 2 methods.
+
+bcrypt.genSalt(10, (err, salt) => {
+    console.log(salt);
+    bcrypt.hash(password, salt, (err, hash) => {
+        console.log(hash);
+        console.log(`Hash cb timestamp: ${new Date().getTime() - timestamp}`);
+    })
+    console.log(`Hash timestamp: ${new Date().getTime() - timestamp}`)
+})
+
+
+let hashedPassword = '$2a$10$5we0pEtSM8EU3PdMWfWvreRvfEwOgzrL.LtqPZaJYj18dAIzee1Dq';
+
+bcrypt.compare(password, hashedPassword, (err, res) => {
+    console.log(res);
+    console.log(`Compare timestamp: ${new Date().getTime() - timestamp}`);
+})
+
+
+////////////////////////////////////////////////
+
+// let data = {
+//     id: 10
+// };
+
+// let token = jwt.sign(data, '123abc');
+// console.log(token);
+
+// let decoded = jwt.verify(token , '123abc');
+// console.log(decoded);
+
+
+////////////////////////////////////////////////
 
 // let message = 'I am user number 3';
 // let hash = SHA256(message).toString();
